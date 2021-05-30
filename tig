@@ -1,0 +1,41 @@
+2021-04-23 18:46 +0200 fooooooobar  M─┐ Merge branch 'master' of boobar
+2021-04-23 16:45 +0000 fooooooobar  │ M─┐ Merge branch 'social_signalsuccess' into 'master'
+2021-04-23 18:35 +0200 fooooooobar  │ │ o Social login success flag
+2021-04-23 18:46 +0200 fooooooobar  o │ │ viual update on Kotd worldmap
+2021-04-23 18:41 +0200 fooooooobar  o─┘ │ hight ME on WorldMap if I am Kotd
+2021-04-23 16:05 +0000 fooooooobar  M─┬─┘ Merge branch 'match_gameoverdistrictscore' into 'master'
+2021-04-23 17:30 +0200 fooooooobar  │ o Correct district score shown
+2021-04-23 14:36 +0000 fooooooobar  M─┤ Merge branch 'district_fetchstate' into 'master'
+2021-04-23 14:36 +0000 fooooooobar  │ o District fetchstate
+2021-04-23 13:00 +0000 fooooooobar  M─┤ Merge branch 'district_fetchstate' into 'master'
+2021-04-23 13:00 +0000 fooooooobar  │ o Fetch state when switching into District scene
+2021-04-23 12:19 +0200 fooooooobar  o─┘ remove "debug" arena on islands and move stars needed
+
+2021-04-22 18:20 +0200 fooooooobar  M─┐ Merge branch 'master' of boobar
+2021-04-22 15:55 +0000 fooooooobar  │ M─┐ Merge branch 'fb_logincredentials' into 'master'
+2021-04-22 15:55 +0000 fooooooobar  │ │ o Testable FacebookController
+2021-04-22 18:20 +0200 fooooooobar  o │ │ use clouds for cube gallery
+2021-04-22 15:00 +0000 fooooooobar  M─┼─┘ Merge branch 'client_language' into 'master'
+2021-04-22 15:00 +0000 fooooooobar  │ o Client language
+2021-04-22 16:26 +0200 fooooooobar  o─┘ better diagnose for failing unittests
+
+enum ConnectionKind {
+    Up,
+    Down
+}
+
+struct NodeConnection {
+    level: u32,
+    kind: ConnectionKind,
+}
+
+enum NodeKind {
+    Commit,
+    Merge,
+}
+
+struct CommitNode {
+    pub level: u32,
+    pub kind: NodeKind 
+    pub connections: ArrayVec<Connection,32>
+}

@@ -25,6 +25,7 @@ mod state;
 pub mod status;
 mod tags;
 mod tree;
+mod treewalk;
 pub mod utils;
 
 pub use blame::{blame_file, BlameHunk, FileBlame};
