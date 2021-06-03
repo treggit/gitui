@@ -1,4 +1,4 @@
-#![allow(unused_imports, dead_code)]
+#![allow(unused_imports, dead_code, clippy::unwrap_used)]
 
 use crate::{
     error::Result,
@@ -17,7 +17,7 @@ pub fn print_tree(repo_path: &str) -> Result<()> {
 
     let mut commits = Vec::new();
     {
-        let mut walker = LogWalker::new(&repo);
+        let mut walker = LogWalker::new(&repo).mode(Mode::AllRefs);
         walker.read(&mut commits, 1000)?;
     }
 
@@ -46,41 +46,43 @@ pub fn print_tree(repo_path: &str) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
+    use git2::Time;
+
     use super::*;
     use crate::sync::{
-        checkout_branch, create_branch,
-        tests::{repo_init_empty, write_commit_file},
+        checkout_branch, commit, create_branch,
+        tests::{commit_at, repo_init_empty, write_commit_file},
     };
     // use pretty_assertions::assert_eq;
 
+    fn gittime(s: i64) -> Time {
+        Time::new(s, 0)
+    }
+
     #[test]
     fn test_smoke() {
-        // │ ●  [b1] c4
-        // │ │ ●  [b2] c3
-        // │ ●─╯  c2
-        // ●─╯  [master] c1
+        // ●  [b1] c4
+        // │ ●  [b2] c3
+        // ●─╯  c2
+        // ●  [master] c1
 
-        let (td, repo) = repo_init_empty().unwrap();
-        let repo_path = td.path().to_string_lossy();
+        let (td, _repo) = repo_init_empty().unwrap();
+        let path = td.path().to_string_lossy();
 
-        let c1 = write_commit_file(&repo, "test.txt", "", "c1");
-        dbg!(c1);
+        let _c1 = commit_at(&path, "c1", gittime(0));
 
-        let b1 = create_branch(&repo_path, "b1").unwrap();
+        let b1 = create_branch(&path, "b1").unwrap();
 
-        let c2 = write_commit_file(&repo, "test2.txt", "", "c2");
-        dbg!(c2);
+        let _c2 = commit_at(&path, "c2", gittime(1));
 
-        let _b2 = create_branch(&repo_path, "b2").unwrap();
+        let _b2 = create_branch(&path, "b2").unwrap();
 
-        let c3 = write_commit_file(&repo, "test3.txt", "", "c3");
-        dbg!(c3);
+        let _c3 = commit_at(&path, "c3", gittime(2));
 
-        checkout_branch(&repo_path, &b1).unwrap();
+        checkout_branch(&path, &b1).unwrap();
 
-        let c4 = write_commit_file(&repo, "test4.txt", "", "c4");
-        dbg!(c4);
+        let _c4 = commit_at(&path, "c4", gittime(3));
 
-        print_tree(&repo_path).unwrap();
+        print_tree(&path).unwrap();
     }
 }

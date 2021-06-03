@@ -151,7 +151,7 @@ mod tests {
         commit_at(path, commit_name, time)
     }
 
-    fn commit_at(
+    pub fn commit_at(
         repo_path: &str,
         msg: &str,
         time: git2::Time,
