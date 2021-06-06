@@ -2,7 +2,7 @@
 
 use crate::{
     error::Result,
-    sync::{logwalker::Mode, utils, CommitId, LogWalker},
+    sync::{utils, CommitId, LogWalker},
 };
 use scopetime::scope_time;
 
@@ -17,8 +17,8 @@ pub fn print_tree(repo_path: &str) -> Result<()> {
 
     let mut commits = Vec::new();
     {
-        let mut walker = LogWalker::new(&repo).mode(Mode::AllRefs);
-        walker.read(&mut commits, 1000)?;
+        let mut walker = LogWalker::new(&repo, 1000)?;
+        walker.read(&mut commits)?;
     }
 
     println!("commits: {}", commits.len());
